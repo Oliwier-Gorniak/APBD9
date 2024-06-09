@@ -1,3 +1,7 @@
+using APBD9.Data;
+using APBD9.Services;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 
@@ -5,6 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddControllers();
+builder.Services.AddDbContext<Apbd9Context>(options => options.UseSqlServer("Name=ConnectionStrings:Default"));
+builder.Services.AddScoped<IDbService, DbService>();
 
 var app = builder.Build();
 
@@ -16,5 +23,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.MapControllers();
 
 app.Run();
